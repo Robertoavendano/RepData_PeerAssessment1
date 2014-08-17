@@ -57,7 +57,7 @@ Let´s replace the NAs with the mean value of its corresponding dayss.
 table2 <- merge(table, intervals, by="interval")
 table2 <- table2[order(table2$date), ]
 table2$steps[is.na(table2$steps)] <- table2$mean_steps[is.na(table2$steps)]
-table2$mean.steps <- NULL
+activity2$mean.steps <- NULL
 ```
 
 ```{r}
@@ -84,9 +84,9 @@ table2$daytype <- "weekday"
 table2$daytype[table2$day == "Saturday"] <- "weekend"
 table2$daytype[table2$day == "Sunday"]   <- "weekend"
 table2$day <- NULL
-table2$daytype <- factor(table2$daytype)
+table2$daytype <- factor(activity2$daytype)
 
-intervals.weekday <- aggregate(steps~interval, table2[table2$daytype == "weekday", ], mean)
+intervals.weekday <- aggregate(steps~interval, table2[table22$daytype == "weekday", ], mean)
 intervals.weekend <- aggregate(steps~interval, table2[table2$daytype == "weekend", ], mean)
 intervals.weekday$daytype <- "weekday"
 intervals.weekend$daytype <- "weekend"
