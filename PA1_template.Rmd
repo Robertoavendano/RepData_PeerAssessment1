@@ -1,7 +1,7 @@
 ---
-title: "PeerAssessment"
+title: "PeerAssessment 1"
 author: "roberto avendano"
-date: "Sunday, August 17, 2014"
+date: "Sunday, September 14, 2014"
 output: html_document
 ---
 ## Loading and preprocessing the data :
@@ -13,12 +13,25 @@ getwd()
 
 ```{r}
 table<- read.csv("activity.csv")
-table$date <- as.Date(table$date, "%Y-%m-%d")
-## table2<-table[!is.na(table$steps),]
-
 ```
 
-## What is mean total number of steps taken per day?
+The file has 3 variables on 17568 observations.
+The date was converted with the following command:
+
+
+```{r}
+table$date <- as.Date(table$date, "%Y-%m-%d")
+ 
+
+```
+Following are the tasks that were asked in the asigment:
+
+## 1) What is mean total number of steps taken per day?
+
+
+
+Calculating the mean of the number of steps taken per day. 
+
 
 ```{r}
 StepsPerDay <- aggregate(steps~date, table, sum)
@@ -27,13 +40,16 @@ mean(StepsPerDay$steps)
 median(StepsPerDay$steps)
 ```
 
-## What is the average daily activity pattern?
+## 2) What is the average daily activity pattern?
+
+Calculating the total mean of the steps within each 5-minute interval on all the days
 
 ```{r}
 intervals <- aggregate(steps~interval, table, mean)
 colnames(intervals)[2] <- "mean_steps"
 plot(intervals, type="l", ylab="Average Steps", main="Average steps per interval")
 ```
+
 Thus the following interval  contains, on average, the greatest number of steps.
 
 ```{r}
@@ -43,7 +59,7 @@ intervals[intervals$interval == max.interval, ]
 
 `r max.interval`
 
-##  Imputing missing values
+## 3) Imputing missing values
 
 The number of missing values is :
 
@@ -51,7 +67,7 @@ The number of missing values is :
  sum(is.na(table$steps))
 ```
 
-Let´s replace the NAs with the mean value of its corresponding dayss.
+Let´s replace the NAs with the mean value of its corresponding days.
 
 ```{r}
 table2 <- merge(table, intervals, by="interval")
@@ -77,7 +93,7 @@ median(StepsPerDay2$steps)
  
 The mean and median values are very similar, but the tallest bar of the histogram has been lengthened. The reason for this is that by filling in the NA values added more days with the average number of daily steps.
 
-## Are there differences in activity patterns between weekdays and weekends?
+## 4)  Are there differences in activity patterns between weekdays and weekends?
 ```{r}
 table2$day <- weekdays(table2$date)
 table2$daytype <- "weekday"
@@ -95,6 +111,10 @@ intervals.both$daytype <- factor(intervals.both$daytype)
 library(lattice)
 xyplot(steps~interval | daytype, data=intervals.both, type="l", layout=c(1,2))
 ```
+
+
+The mean number of steps are very close to zero at the beginning of the day in both the weekdays and weekends. Furthermore, both day groups experience their peak points around 900th minute in a day. Later, the mean number of steps decreased in both day groups. However, the decrease in weekdays is much higher than the decrease in the weekends. The mean number of steps stay around 100 for weekends whereas they are aound 50 in the weekdays. At the end of the day, the mean number of steps decrease around zero for both day groups.
  
  
  
+
